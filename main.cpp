@@ -7,15 +7,9 @@
 
 using namespace std;
 
-////global variables for total number, array, string and id
 int initialID = 1001; //as id starts with 1001
 int i = 0; //to control loop while multiple employee input and control the array Employee emp[100]
-int y[100];
-int z[100];//to store salary, if not needed remove
-bool flag = 0;
-string h[100];//storing last name, remove if not needed
-double salary[100];
-int check = 0;
+
 
 
 class Employee
@@ -35,6 +29,7 @@ public:
     void get_fieldName();
     void get_deletingemployeeDetails();
     void get_deletingConfirmation();
+    void get_updatingConfirmation();
     void set_employeeID(int);
     int get_employeeID();
     void set_Name();
@@ -164,14 +159,15 @@ void::Employee::get_deletingemployeeDetails(){
 void::Employee::get_deletingConfirmation(){
     cout<<"The employee " <<this->firstName<<" "<<this->lastName<< " was deleted!"<<endl;
 }
+void::Employee::get_updatingConfirmation(){
+    cout<<"The information for " <<this->firstName<<" "<<this->lastName<< " has been updated !"<<endl;
+}
 
 int::Employee::get_employeeID(){
     return this->employeeID;
 }
 
 
-//global variable k to count entries
-int k = 0;
 void ::Employee ::set_fieldName()
 {
     set_employeeID(initialID);
@@ -182,9 +178,6 @@ void ::Employee ::set_fieldName()
     set_costPerHour();
     set_annualSalary();
     set_deduction();
-    y[k] = employeeID;
-
-    k++;
 }
 
 
@@ -250,7 +243,7 @@ int HRM::searchEmployee()
                     cout<<"Employee Found with this ID!"<<endl;
                     cout<<"Details:"<<endl;
                     cout << "\nEmployee ID       First Name     Family Name             Annual Salary ($)";
-                    cout << "\n------------   ----------------  -------------------   -----------------------" << endl;
+                    cout << "\n------------   ----------------  ----------------   -----------------------" << endl;
                     emp[i].get_fieldName();
                     found=true;
                     break;
@@ -270,7 +263,7 @@ int HRM::searchEmployee()
         while (searchAgain == 'y' || searchAgain == 'Y');
         return searchID;
     }else{
-        "The Record is Empty!"
+        "The Record is Empty!";
     }
 
 }
@@ -360,6 +353,105 @@ void HRM::deleteEmployee()
 }
 
 
+//Update Employee
+void HRM::updateEmployee()
+{
+
+label2:
+
+    int employeeID;
+    cout << "Please Enter the Employee ID? ";
+
+    while (!(cin >> employeeID)){
+        cout << "Please Enter a number! Try again: ";
+        cin.clear();
+        cin.ignore(1000, '\n');
+    }
+    bool found = false;
+    for (int i = 0; i < number; i++)
+    {
+
+        if (employeeID==emp[i].get_employeeID()){
+            found = true;
+            int updatechoice = 0;
+            char again;
+            do
+            {
+                cout << endl;
+                cout << "Please enter the related number of field which you would like to update?" << endl;
+                cout << "(1. First name" <<" 2. Last name" << " 3. Working hours per week" << " 4. Payment for one hour" <<" 5. Deduction)?"<<endl;
+                cin >> updatechoice;
+                switch(updatechoice)
+                {
+                case 1:
+                    emp[i].set_firstName();
+                    break;
+                case 2:
+                    emp[i].set_lastName();
+                    break;
+                case 3:
+                    emp[i].set_workingHour();
+                    emp[i].set_annualSalary();
+                    break;
+                case 4:
+                    emp[i].set_costPerHour();
+                    emp[i].set_annualSalary();
+                    break;
+                case 5:
+                    emp[i].set_deduction();
+                    emp[i].set_annualSalary();
+                    break;
+                default:
+                    cout<<"Invalid option! Try again!"<<endl;
+                }
+
+                cout << "Do you want to update any other field? (y/n)=";
+                cin >> again;
+            } while (again == 'y' || again == 'Y');
+            emp[i].get_updatingConfirmation();
+            break;
+
+        }
+    }
+    if(found==false){
+        cout<<"Sorry, there is no employee with this ID!"<<endl;
+    }
+    cout<<"Do you want to repeat update by entering new employee ID? (y/n)?: "<<endl;
+    char re;
+    cin>>re;
+    if(re=='y'||re=='Y'){
+        goto label2;
+    }
+
+}
+
+
+
+//to read employee from file
+// void readFromFile(){
+//     HRM employee;
+//     ifstream file("employee.txt");
+//     string fields;
+//     while (getline(file,fields))
+//     {
+//         istringstream indField(fields);
+//         string values;
+//         //string *token=strtok(fields," ");
+//         while(fields){
+//             cout<<fields;
+//             //employee.emp[i].set_employeeID(initialID);
+//             //employee.emp[i].set_firstName(values);
+//         }
+//         initialID++;
+//         i++;
+//         employee.number++;
+//     }
+//     for(int i=0;i<employee.number;i++){
+//         cout<<employee.emp[i].get_employeeID()<<endl;
+//         employee.emp[i].get_fieldName();
+//     }
+
+// }
 
 
 
