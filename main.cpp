@@ -32,8 +32,9 @@ private:
 public:
     void set_fieldName();
     void get_fieldName();
-    void get_employeeDetails();
+    void get_deletingemployeeDetails();
     void set_employeeID(int);
+    int get_employeeID();
     void set_Name();
     void set_firstName();
     void set_lastName();
@@ -147,8 +148,11 @@ void ::Employee ::get_fieldName()
 {
     cout << this->employeeID << "\t\t" << this->firstName << "\t\t\t" << this->lastName << "\t\t\t" << this->annualSalary << "\t" << endl;
 }
-void::Employee::get_employeeDetails(){
-
+void::Employee::get_deletingemployeeDetails(){
+    cout<<"Do you really want to delete the employee with ID: "<<this->employeeID<<" First Name:"<<this->firstName<<"\t"<<" Last Name:"<<this->lastName<< "(y/n)?:";
+}
+int::Employee::get_employeeID(){
+    return this->employeeID;
 }
 
 
@@ -181,7 +185,7 @@ private:
 public:
     void AddEmployee();
     void DeleteEmployee();
-    void SearchEmployee();
+    bool SearchEmployee();
     void UpdateEmployee();
     void ReportList();
 };
@@ -210,6 +214,112 @@ void ::HRM::AddEmployee()
         cout << "Do u wont to add another employee?\nIf yes, press 'y' or press any other key to exit!" << endl;
         cin >> again;
     } while ((again == 'y' || again == 'Y'));
+}
+
+bool HRM::SearchEmployee()
+{
+    int searchID;
+    char searchAgain;
+    bool found;
+    do
+    {   
+        cout<<"Enter Employee ID to search an Employee: ";
+        cin>>searchID;
+        for(int i=0;i<n;i++){
+            if(emp[i].get_employeeID()==searchID){
+                cout<<"Employee Found with this ID!"<<endl;
+                cout<<"Details:"<<endl;
+                cout << "\nEmployee ID       First Name       Last Name          Annual Salary ($)";
+                cout << "\n------------   -------------  --------------   -----------------------" << endl;
+                emp[i].get_fieldName();
+                found=true;
+                break;
+            }else{
+                found=false;
+            }
+        }
+        if(found==false){
+            cout<<"No Employee Was found with this ID!";
+        }
+        cout << "\nDo you want to Search again?(y/n)?"<< endl;
+        cin >> searchAgain;
+    } while (searchAgain == 'y' || searchAgain == 'Y');
+    return found;
+}
+
+
+//Delete Employee
+void HRM::DeleteEmployee()
+{
+    //      Show all of the current employees
+    //      Ask the user the ID of which employee that they wish to
+    //      delete.
+
+    int empIdtoDelete;
+    bool found;
+    char redo1;
+    char deleteChoice;
+    found = false;
+label1:
+    cout << "ID of employee to remove: ";
+
+    while (!(cin >> empIdtoDelete))//check if string or not
+    {
+        cout << "Please enter a number! Try again: ";
+        cin.clear();
+        cin.ignore(1000, '\n');
+    }
+    for (i = 0; i < n; ++i)
+    {
+
+        if (y[i] == empIdtoDelete)
+        {
+            emp[i] = emp[i + 1];
+            found = true;
+            emp[i].get_deletingemployeeDetails();
+            cin >> deleteChoice;
+            if (deleteChoice == 'y' || deleteChoice == 'Y')
+            {
+                int swap;
+                swap = n;
+                cout << "\nThe employee with the following information has been added to the system:" << endl;
+                cout << "\nEmployee ID       First Name       Last Name          Annual Salary ($)";
+                cout << "\n--------------   --------------  ----------------   -------------------------" << endl;
+                for (int i = 0; i < swap; i++)
+                {
+                    emp[i].get_fieldName();
+                    cout << "hahahahah=" << n << endl;
+                    swap--;
+                    n = swap;
+                    n++;
+                }
+            }else{
+                goto label1;
+            }
+
+            cout << endl;
+
+            // Delete function
+        }
+    }
+
+    if (found == false)
+    {
+        cout << "Sorry, there is not any employee with requested Employee ID.\nDo you want to try again? (y/n)?:";
+        cin >> redo1;
+        if (redo1 == 'Y' || redo1 == 'y')
+        {
+            goto label1;
+            cout << endl
+                 << endl;
+        }
+    }
+
+    //      Delete the chosen employee from the array of employees
+    //      as represented in this class.
+
+    // Actually remove the entry from memory so as to not leak objects
+    // nextIndex--;
 }
 
 
@@ -279,5 +389,6 @@ int main()
     // system("pause");
     HRM employee;
     employee.AddEmployee();
+    cout<<employee.SearchEmployee();
     return 0;
 }
