@@ -72,35 +72,69 @@ void ::Employee::set_lastName()
 }
 void ::Employee::set_workingHour()
 {
-    cout << "Set working Hours (weekly) for this employee: ";
-    while (!(cin >> this->workingHours) && (this->workingHours)>60 && this->workingHours<1){ // checking character or not and if the value is greater than 60 and less than 1
-
-        cout << "Please enter the working hours between 1 and 60! Try again: ";
+    try{
+        cout << "Set working Hours (weekly) for this employee: ";
+        float wh;
+        cin>>wh;
         cin.clear();
         cin.ignore(1000, '\n');
+        if ((wh) > 60 || wh < 1){
+            cout << "\nPlease enter the working hours between 1 and 60! Try again: ";
+            set_workingHour();
+        }
+        else{
+            this->workingHours = wh;
+        }
     }
+    catch(invalid_argument){
+        cout << "\nPlease enter the working hours between 1 and 60! Try again: \n";
+        set_workingHour();
+    }
+    
+    
 }
 void ::Employee::set_costPerHour()
 {
-    cout << "Set cost per hour for the Employee: ";
-
-    while (!(cin >> this->costPerHour)&& this->costPerHour<0){ // checking character or if its a negative number
-        cout << "Please enter a number! Try again: ";
+    try{
+        cout << "Set Cost Per Hour for this employee: ";
+        float cph;
+        cin>>cph;
         cin.clear();
-        cin.ignore(1000, '\n'); // Skip to next newline or 1000 chars,
-                                // whichever comes first.
+        cin.ignore(1000, '\n');
+        if ((cph) < 0){
+            cout << "\nPlease enter the Cost Per Hour a positive number! Try again: ";
+            set_costPerHour();
+        }
+        else{
+            this->costPerHour = cph;
+        }
+    }
+    catch(invalid_argument){
+        cout << "\nPlease enter the Cost Per Hour a positive Number! Try again: ";
+        set_costPerHour();
     }
     
 }
 
 void ::Employee::set_deduction(){
 
-    cout << "How much do you want to deduct from the employees salary? =";
-    while (!(cin >> this->deduction)&& this->deduction<1){
-
-        cout << "Please enter a positive number! Try again: ";
+    try{
+        cout << "Set The amount you want to deduct from this employee's annual Salary: ";
+        float ded;
+        cin>>ded;
         cin.clear();
-        cin.ignore(1000, '\n');// whichever comes first.
+        cin.ignore(1000, '\n');
+        if ((ded)< 0){
+            cout << "\nPlease enter deduction amount a positive number! Try again: ";
+            set_deduction();
+        }
+        else{
+            this->deduction = ded;
+        }
+    }
+    catch(invalid_argument){
+        cout << "\nPlease enter deduction amount a positive number! Try again: ";
+        set_deduction();
     }
     
 }
@@ -139,6 +173,25 @@ void ::Employee ::set_fieldName()
 
     k++;
 }
+
+
+class HRM
+{
+private:
+    Employee e[100];
+    Employee temp[100];
+
+public:
+    void AddEmployee();
+    void DeleteEmployee();
+    void SearchEmployee();
+    void UpdateEmployee();
+    void ReportList();
+};
+
+
+
+
 
 int main()
 {
