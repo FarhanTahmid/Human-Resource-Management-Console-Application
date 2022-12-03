@@ -7,8 +7,8 @@ using namespace std;
 
 ////global variables for total number, array, string and id
 int initialID = 1001; //as id starts with 1001
-int n = 0;
-int i = 0; 
+int n = 0; //To track total number of employees
+int i = 0; //to control loop while multiple employee input and control the array Employee emp[100]
 int y[100];
 int z[100];//to store salary, if not needed remove
 bool flag = 0;
@@ -115,7 +115,6 @@ void ::Employee::set_costPerHour()
     }
     
 }
-
 void ::Employee::set_deduction(){
 
     try{
@@ -138,7 +137,6 @@ void ::Employee::set_deduction(){
     }
     
 }
-
 void ::Employee::set_annualSalary(){
     this->annualSalary=((double(this->workingHours)*double(this->costPerHour))*52.143)-double(this->deduction);  
 }
@@ -147,7 +145,7 @@ double ::Employee::get_annualSalary(){
 }
 void ::Employee ::get_fieldName()
 {
-    cout << this->firstName << "\t\t" << this->lastName << "\t\t\t" << this->employeeID << "\t\t\t" << this->annualSalary << "\t" << endl;
+    cout << this->employeeID << "\t\t" << this->firstName << "\t\t\t" << this->lastName << "\t\t\t" << this->annualSalary << "\t" << endl;
 }
 void::Employee::get_employeeDetails(){
 
@@ -160,7 +158,6 @@ void ::Employee ::set_fieldName()
 {
     set_employeeID(initialID);
     initialID++;
-    cout << n; //remove this if you want to
     set_firstName();
     set_lastName();
     set_workingHour();
@@ -178,7 +175,7 @@ void ::Employee ::set_fieldName()
 class HRM
 {
 private:
-    Employee e[100];
+    Employee emp[100];
     Employee temp[100];
 
 public:
@@ -190,7 +187,30 @@ public:
 };
 
 
+//Add employee function
+void ::HRM::AddEmployee()
+{
 
+    char again;
+    do
+    {
+        n++; //Track of total Number of employees
+        emp[i].set_fieldName(); //setting the employee on current point of i
+        i++; //incrementing i
+        cout<<i<<"\n";
+
+        cout << "\nThe employee with the following information has been recorded:" << endl;
+        cout << "\nEmployee Id       First Name         Last Name           Annual Salary ($)";
+        cout << "\n------------   -----------------  ---------------     -------------------------" << endl;
+
+        for (int i = 0; i < n; i++)
+        {
+            emp[i].get_fieldName();
+        }
+        cout << "Do u wont to add another employee?\nIf yes, press 'y' or press any other key to exit!" << endl;
+        cin >> again;
+    } while ((again == 'y' || again == 'Y'));
+}
 
 
 int main()
@@ -257,9 +277,7 @@ int main()
     // } while (ch == 'y' || ch == 'Y');
 
     // system("pause");
-    Employee a;
-    a.set_fieldName();
-    a.set_annualSalary();
-    a.get_fieldName();
+    HRM employee;
+    employee.AddEmployee();
     return 0;
 }
