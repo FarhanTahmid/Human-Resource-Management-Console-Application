@@ -8,7 +8,7 @@
 using namespace std;
 
 int initialID = 1001; //as id starts with 1001
-int i = 0; //to control loop while multiple employee input and control the array Employee emp[100]
+int i=0; //to control loop while multiple employee input and control the array Employee emp[100]
 
 
 
@@ -26,6 +26,7 @@ private:
 
 public:
     void set_fieldName();
+    void set_fieldNameFromFile(string,string,float,float,float);
     void get_fieldName();
     void get_deletingemployeeDetails();
     void get_deletingConfirmation();
@@ -36,9 +37,13 @@ public:
     void set_firstName();
     void set_firstName(string);
     void set_lastName();
+    void set_lastName(string);
     void set_workingHour();
+    void set_workingHour(float);
     void set_costPerHour();
-    void set_deduction();  //have to set this in update
+    void set_costPerHour(float);
+    void set_deduction();
+    void set_deduction(float);
     void set_annualSalary();
     double get_annualSalary();
 };
@@ -75,6 +80,10 @@ void ::Employee::set_lastName()
         cin.ignore(1000, '\n');
     }
 }
+void ::Employee::set_lastName(string lname)
+{
+    this->lastName=lname;
+}
 void ::Employee::set_workingHour()
 {
     try{
@@ -95,8 +104,10 @@ void ::Employee::set_workingHour()
         cout << "\nPlease enter the working hours between 1 and 60! Try again: \n";
         set_workingHour();
     }
-
-
+}
+void ::Employee::set_workingHour(float wh)
+{
+    this->workingHours=wh;
 }
 void ::Employee::set_costPerHour()
 {
@@ -118,7 +129,10 @@ void ::Employee::set_costPerHour()
         cout << "\nPlease enter the Cost Per Hour a positive Number! Try again: ";
         set_costPerHour();
     }
-
+}
+void ::Employee::set_costPerHour(float cph)
+{
+    this->costPerHour=cph;
 }
 void ::Employee::set_deduction(){
 
@@ -142,6 +156,10 @@ void ::Employee::set_deduction(){
         set_deduction();
     }
 
+}
+void ::Employee::set_deduction(float ded)
+{
+    this->deduction=ded;
 }
 void ::Employee::set_annualSalary(){
     this->annualSalary=((this->workingHours*this->costPerHour)*52.0)-(this->deduction);
@@ -167,7 +185,6 @@ int::Employee::get_employeeID(){
     return this->employeeID;
 }
 
-
 void ::Employee ::set_fieldName()
 {
     set_employeeID(initialID);
@@ -179,16 +196,23 @@ void ::Employee ::set_fieldName()
     set_annualSalary();
     set_deduction();
 }
-
+void::Employee::set_fieldNameFromFile(string fname1,string lname1,float wh1,float cph1,float ded1){
+    set_employeeID(initialID);
+    initialID++;
+    set_firstName(fname1);
+    set_lastName(lname1);
+    set_workingHour(wh1);
+    set_costPerHour(cph1);
+    set_deduction(ded1);
+    set_annualSalary();
+}
 
 class HRM
 {
 
-
-
-
 public:
     void AddEmployee();
+    void readFromFile();
     void deleteEmployee();
     int searchEmployee();
     int searchEmployee(int);
@@ -205,8 +229,12 @@ void ::HRM::AddEmployee()
 {
 
     char again;
+
     do
     {
+        if(number==100){
+        cout<<"Warning! Total Number Of employee is Now 100! Delete an Employee to add one!"<<endl;
+    }else{
         number++; //Track of total Number of employees
         emp[i].set_fieldName(); //setting the employee on current point of i
         i++; //incrementing i
@@ -220,6 +248,10 @@ void ::HRM::AddEmployee()
         {
             emp[i].get_fieldName();
         }
+
+    }
+
+        cout<<"Total Number Of Employee: "<<number<<endl;
         cout << "Do you want to add another employee?(y/n)" << endl;
         cin >> again;
     } while ((again == 'y' || again == 'Y'));
@@ -293,7 +325,6 @@ int HRM::searchEmployee(int searchID){
     return deleteIndex;
 }
 
-
 //Delete Employee
 void HRM::deleteEmployee()
 {
@@ -341,7 +372,7 @@ void HRM::deleteEmployee()
         {
             cout << "Sorry, there is no employee with requested Employee ID.\nDo you want to try again? (y/n)?:";
             cin >> redo;
-            if (redo == 'Y' || redo == 'y')
+            if (redo == 'y' || redo == 'Y')
             {
                 goto label1;
                 cout << endl;
@@ -426,39 +457,30 @@ label2:
 }
 
 
-
 //to read employee from file
-// void readFromFile(){
-//     HRM employee;
-//     ifstream file("employee.txt");
-//     string fields;
-//     while (getline(file,fields))
-//     {
-//         istringstream indField(fields);
-//         string values;
-//         //string *token=strtok(fields," ");
-//         while(fields){
-//             cout<<fields;
-//             //employee.emp[i].set_employeeID(initialID);
-//             //employee.emp[i].set_firstName(values);
-//         }
-//         initialID++;
-//         i++;
-//         employee.number++;
-//     }
-//     for(int i=0;i<employee.number;i++){
-//         cout<<employee.emp[i].get_employeeID()<<endl;
-//         employee.emp[i].get_fieldName();
-//     }
+void::HRM::readFromFile(){
 
-// }
+    ifstream file;
+    string firstName;
+    string lastName;
+    float wh;
+    float cph;
+    float ded;
+    file.open("employee.txt",ios::in);
+    int lines=0;
+    if(file.is_open()){
 
-
+        while(file>>firstName>>lastName>>wh>>cph>>ded){
+            number++;
+            emp[i].set_fieldNameFromFile(firstName,lastName,wh,cph,ded);
+            i++;
+        }
+    }
+    file.close();
+}
 
 int main()
 {
-
-    // readFromFile();
 
     int menuChoice;
     char again;
@@ -467,6 +489,8 @@ int main()
     cout << "**************************************************************************" << endl;
     cout << endl<< endl;
     HRM employee;
+    employee.readFromFile();
+
     do
     {
 
@@ -496,21 +520,21 @@ int main()
             employee.deleteEmployee();
             break;
         case 3:
+            cout<<"## Update an Employee ##"<<endl;
             employee.updateEmployee();
             break;
         case 4:
-            cout<<"## Update an Employee ##"<<endl;
+            cout<<"## Search an Employee ##"<<endl;
             employee.searchEmployee();
             break;
         case 5:
             system("pause");
             break;
         default:
-            cout << "\nInvalid option try again";
+            cout << "\nInvalid input! Try again: ";
         }
-        cout << "\nDo u want to perform any other task?(y/n)";
+        cout << "\nDo u want to perform any other task? (y/n)";
         cin >> again;
     } while (again == 'y' || again == 'Y');
-
     return 0;
 }

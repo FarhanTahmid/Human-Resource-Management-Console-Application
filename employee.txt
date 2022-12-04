@@ -1,10 +1,10 @@
-Farib Ferdous 45 40
-Mubasshir Messi 35 30
-Thomas Eddsion 41 56
-Virat Kohli 41 43
-Rahat Ferdous 55 60
-Ferdous Ahsan 45 40
-Maliha Jackson 45 40
-Safuan Saifee 43 23
-Fariba Tasnim 49 44
-Fariha Ferdous 47 47
+Farib Ferdous 45 40 113
+Mubasshir Messi 35 30 112
+Thomas Eddsion 41 56 45
+Virat Kohli 41 43 0
+Rahat Ferdous 55 60 3
+Ferdous Ahsan 45 40 34
+Maliha Jackson 45 40 34
+Safuan Saifee 43 23 23
+Fariba Tasnim 49 44 22
+Fariha Ferdous 47 47 323
