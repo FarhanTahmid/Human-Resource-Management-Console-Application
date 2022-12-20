@@ -1,5 +1,5 @@
 # Human-Resource-Management-Console-Application
-This is a basic Human Resource Management Program Created with C++ to add, delete, update(specific fields), search catere for HR dept of a company!
+This is a basic Human Resource Management Program Created with C++. Implemented functionality like add, delete, update(specific fields), search employees, catered for HR department of a company!
 
 Program Demonstration:
 
